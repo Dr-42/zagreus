@@ -1,0 +1,22 @@
+[build]
+compiler = "clang"
+cstandard = "c11"
+
+[[targets]]
+name = "libzagreus"
+src = "zagreus/src"
+include_dir = "zagreus/src/include"
+type = "dll"
+cflags = "-g -Wall -Wextra"
+libs = "-lm"
+
+[[targets]]
+name = "testbed"
+src = "testbed/src"
+include_dir = "testbed/src/include"
+type = "exe"
+cflags = "-g -Wall -Wextra"
+libs = ""
+deps = ["libzagreus"]
+
+
