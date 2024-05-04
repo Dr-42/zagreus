@@ -11,7 +11,7 @@ static char* ANSI_COLOR_RED = "\x1b[31m";
 static char* ANSI_COLOR_YELLOW = "\x1b[33m";
 static char* ANSI_COLOR_BLUE = "\x1b[34m";
 static char* ANSI_COLOR_MAGENTA = "\x1b[35m";
-static char* ANSI_COLOR_FATAL = "\x1b[31;1m";
+static char* ANSI_COLOR_FATAL = "\x1b[41;1;30m";
 
 void zlog_set_level(z_log_level_t level) {
 	zlog_level = level;
@@ -36,6 +36,7 @@ void zlog_debug(const char *fmt, ...) {
 	printf("%s[DEBUG] %s",ANSI_COLOR_MAGENTA, ANSI_COLOR_RESET);
 	vprintf(fmt, args);
 	va_end(args);
+	printf("\n");
 }
 
 void zlog_info(const char *fmt, ...) {
@@ -47,6 +48,7 @@ void zlog_info(const char *fmt, ...) {
 	printf("%s[INFO] %s", ANSI_COLOR_BLUE, ANSI_COLOR_RESET);
 	vprintf(fmt, args);
 	va_end(args);
+	printf("\n");
 }
 
 void zlog_warn(const char *fmt, ...) {
@@ -58,6 +60,7 @@ void zlog_warn(const char *fmt, ...) {
 	printf("%s[WARN] %s", ANSI_COLOR_YELLOW, ANSI_COLOR_RESET);
 	vprintf(fmt, args);
 	va_end(args);
+	printf("\n");
 }
 
 void zlog_error(const char *fmt, ...) {
@@ -69,14 +72,16 @@ void zlog_error(const char *fmt, ...) {
 	printf("%s[ERROR] %s", ANSI_COLOR_RED, ANSI_COLOR_RESET);
 	vprintf(fmt, args);
 	va_end(args);
+	printf("\n");
 }
 
 void zlog_fatal(const char *fmt, ...) {
 	va_list args;
 	va_start(args, fmt);
-	printf("%s[FATAL] %s", ANSI_COLOR_FATAL, ANSI_COLOR_RESET);
+	printf("%s[FATAL] ", ANSI_COLOR_FATAL);
 	vprintf(fmt, args);
 	va_end(args);
+	printf("%s\n", ANSI_COLOR_RESET);
 	exit(EXIT_FAILURE);
 }
 
@@ -86,6 +91,7 @@ void zlog_fatal_with_callback(zlog_fatal_callback *callback, void* data, const c
 	printf("%s[FATAL] %s", ANSI_COLOR_FATAL, ANSI_COLOR_RESET);
 	vprintf(fmt, args);
 	va_end(args);
+	printf("\n");
 	callback(data);
 	exit(EXIT_FAILURE);
 }
